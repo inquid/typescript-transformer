@@ -28,6 +28,8 @@ class TypeScriptTransformerConfig
     private ?string $formatter = null;
 
     private bool $transformToNativeEnums = false;
+    
+    private bool $oneFilePerType = false;
 
     public static function create(): self
     {
@@ -86,6 +88,13 @@ class TypeScriptTransformerConfig
     public function transformToNativeEnums(bool $transformToNativeEnums = true): self
     {
         $this->transformToNativeEnums = $transformToNativeEnums;
+
+        return $this;
+    }
+    
+    public function oneFilePerType(bool $oneFilePerType = false): self
+    {
+        $this->oneFilePerType = $oneFilePerType;
 
         return $this;
     }
