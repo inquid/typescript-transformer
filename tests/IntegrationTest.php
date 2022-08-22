@@ -50,6 +50,26 @@ class IntegrationTest extends TestCase
 
         $this->assertMatchesSnapshot($transformed);
     }
+    
+        /** @test */
+    public function it_works_with_one_file_per_type()
+    {
+        $temporaryDirectory = (new TemporaryDirectory())->create();
+
+        $transformer = new TypeScriptTransformer(
+            $this->getTransformerConfig()
+                ->oneFilePerType(true))
+        );
+
+        $transformer->transform();
+
+        array_walk(scandir($temporaryDirectory->path()), function ($generatedType){
+            if(str_ends_with($generatedType, '.ts'){
+                $transformed = file_get_contents($temporaryDirectory->path($generatedType));
+                $this->assertMatchesSnapshot($transformed); 
+            }
+        });
+    }
 
     /** @test */
     public function it_can_transform_to_es_modules()
